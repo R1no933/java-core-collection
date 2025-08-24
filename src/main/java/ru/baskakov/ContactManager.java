@@ -28,109 +28,76 @@ public class ContactManager {
         }
     }
 
-    public void add(Scanner scanner) {
-        try {
-            System.out.println("Введите имя контакта:");
-            String name = scanner.nextLine();
-            System.out.println("Введите номер контакта:");
-            String phone = scanner.nextLine();
-            System.out.println("Введите адрес электронной почты контакта:");
-            String email = scanner.nextLine();
-            System.out.println("Введите группу контакта:");
-            String group = scanner.nextLine();
-            currentContact = new Contact(name, phone, email, group);
-            boolean isPresent = contactsSet.contains(currentContact);
-            if (!isPresent) {
-                contactsList.add(currentContact);
-                contactsSet.add(currentContact);
-                contactsMap.put(currentContact.getGroup(), contactsList);
-                System.out.println("Контакт добавлен.");
-            } else {
-                System.out.println("Такой контакт уже существует!");
-            }
-
-        } catch (InputMismatchException e) {
-            System.out.println(INCORRECT_INPUT);
+    public void add(String name, String phone, String email, String group) {
+        currentContact = new Contact(name, phone, email, group);
+        boolean isPresent = contactsSet.contains(currentContact);
+        if (!isPresent) {
+            contactsList.add(currentContact);
+            contactsSet.add(currentContact);
+            contactsMap.put(currentContact.getGroup(), contactsList);
+            System.out.println("Контакт добавлен.");
+        } else {
+            System.out.println("Такой контакт уже существует!");
         }
+
     }
 
-    public void deleteContact(Scanner scanner) {
+    public void deleteContact(String phone) {
         boolean found = false;
         isEmptyArray(contactsList);
 
-        try {
-            System.out.println("Введите номер телефона для удаления контакта:");
-            String phone = scanner.nextLine();
-            Iterator<Contact> contactListIterator = contactsList.iterator();
-            Iterator<Contact> contactSetIterator = contactsSet.iterator();
-            while (contactListIterator.hasNext()) {
-                String phoneNumber = contactListIterator.next().getPhone();
-                if (phoneNumber.equals(phone)) {
-                    contactListIterator.remove();
-                    found = true;
-                }
+        Iterator<Contact> contactListIterator = contactsList.iterator();
+        Iterator<Contact> contactSetIterator = contactsSet.iterator();
+        while (contactListIterator.hasNext()) {
+            String phoneNumber = contactListIterator.next().getPhone();
+            if (phoneNumber.equals(phone)) {
+                contactListIterator.remove();
+                found = true;
             }
+        }
 
-            while (contactSetIterator.hasNext()) {
-                String phoneNumber = contactSetIterator.next().getPhone();
-                if (phoneNumber.equals(phone)) {
-                    contactSetIterator.remove();
-                }
+        while (contactSetIterator.hasNext()) {
+            String phoneNumber = contactSetIterator.next().getPhone();
+            if (phoneNumber.equals(phone)) {
+                contactSetIterator.remove();
             }
+        }
 
-            if (!found) {
-                System.out.println(NOT_FOUND);
-            }
-        } catch (InputMismatchException e) {
-            System.out.println(INCORRECT_INPUT);
+        if (!found) {
+            System.out.println(NOT_FOUND);
         }
     }
 
     public void showContacts() {
         isEmptyArray(contactsList);
-
-        System.out.println(SPLITTER);
         Iterator<Contact> contactListIterator = contactsList.iterator();
         while (contactListIterator.hasNext()) {
             Contact contact = contactListIterator.next();
             System.out.println(contact.toString());
         }
-        System.out.println(SPLITTER);
     }
 
-    public void searchContactByNumber(Scanner scanner) {
+    public void searchContactByNumber(String phone) {
         boolean found = false;
         isEmptyArray(contactsList);
 
-        try {
-            System.out.println(SPLITTER);
-            System.out.println("Введите номер телефона, по которому искать контакт:");
-            String phone = scanner.nextLine();
-            Iterator<Contact> contactListIterator = contactsList.iterator();
-            while (contactListIterator.hasNext()) {
-                Contact contact = contactListIterator.next();
-                if (contact.getPhone().equals(phone)) {
-                    System.out.println(contact.toString());
-                    found = true;
-                }
+        Iterator<Contact> contactListIterator = contactsList.iterator();
+        while (contactListIterator.hasNext()) {
+            Contact contact = contactListIterator.next();
+            if (contact.getPhone().equals(phone)) {
+                System.out.println(contact.toString());
+                found = true;
             }
+        }
 
-            if (!found) {
-                System.out.println(NOT_FOUND);
-            }
-
-            System.out.println(SPLITTER);
-        } catch (InputMismatchException e) {
-            System.out.println(INCORRECT_INPUT);
+        if (!found) {
+            System.out.println(NOT_FOUND);
         }
     }
 
-    public void showContactsByGroup(Scanner scanner) {
+    public void showContactsByGroup(String group) {
         isEmptyMap(contactsMap);
 
-        System.out.println(SPLITTER);
-        System.out.println("Введите название группы:");
-        String group = scanner.nextLine();
         if (!contactsMap.containsKey(group)) {
             System.out.println("Такой группы не существует");
         } else {
@@ -139,6 +106,5 @@ public class ContactManager {
                 System.out.println(contact.toString());
             }
         }
-        System.out.println(SPLITTER);
     }
 }
