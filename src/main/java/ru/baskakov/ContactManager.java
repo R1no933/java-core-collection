@@ -28,8 +28,8 @@ public class ContactManager {
         }
     }
 
-    public void add(String name, String phone, String email, String group) {
-        currentContact = new Contact(name, phone, email, group);
+    public void add(Contact contact) {
+        currentContact = contact;
         boolean isPresent = contactsSet.contains(currentContact);
         if (!isPresent) {
             contactsList.add(currentContact);

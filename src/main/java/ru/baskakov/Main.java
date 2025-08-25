@@ -38,7 +38,8 @@ public class Main {
                         String email = scanner.nextLine();
                         System.out.println("Введите группу контакта:");
                         String group = scanner.nextLine();
-                        manager.add(name, phone, email, group);
+                        Contact contact = new Contact(name, phone, email, group);
+                        manager.add(contact);
                         System.out.println(SPLITTER);
                     }
                     case 2 -> {
