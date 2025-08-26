@@ -4,13 +4,11 @@ import java.util.*;
 
 public class ContactManager {
     private static final String SPLITTER = "==========================================================================";
-    private static final String INCORRECT_INPUT = "Введен не верный формат данных! Все поля заполняются строками!";
     private static final String NOT_FOUND = "Контакт не найден!";
 
     private ArrayList<Contact> contactsList = new ArrayList<>();
     private Set<Contact> contactsSet = new HashSet<>();
     private Map<String, ArrayList<Contact>> contactsMap = new HashMap<>();
-    private Contact currentContact;
 
     private void isEmptyArray(ArrayList<Contact> list) {
         if (list.isEmpty()) {
@@ -29,12 +27,11 @@ public class ContactManager {
     }
 
     public void add(Contact contact) {
-        currentContact = contact;
-        boolean isPresent = contactsSet.contains(currentContact);
+        boolean isPresent = contactsSet.contains(contact);
         if (!isPresent) {
-            contactsList.add(currentContact);
-            contactsSet.add(currentContact);
-            contactsMap.put(currentContact.getGroup(), contactsList);
+            contactsList.add(contact);
+            contactsSet.add(contact);
+            contactsMap.put(contact.getGroup(), contactsList);
             System.out.println("Контакт добавлен.");
         } else {
             System.out.println("Такой контакт уже существует!");
